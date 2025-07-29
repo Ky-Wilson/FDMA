@@ -41,13 +41,10 @@
         {{-- Photos --}}
         <div class="mb-4">
             <h4>Photos de l'annonce (1 à 4 max.)</h4>
-            <small class="text-muted mb-3 d-block">Laissez un champ vide pour ne pas changer la photo existante, ou sélectionnez une nouvelle photo pour remplacer l'ancienne.</small>
+            <small class="text-muted mb-3 d-block">Remplacez une photo en en sélectionnant une nouvelle.</small>
 
             @php
-                $existingPhotos = is_array($annonce->photos) ? $annonce->photos : ($annonce->photos ? [$annonce->photos] : []);
-                if (!is_array($existingPhotos) && json_decode($annonce->photos)) {
-                    $existingPhotos = json_decode($annonce->photos, true);
-                }
+                $existingPhotos = is_array($annonce->photos) ? $annonce->photos : json_decode($annonce->photos, true) ?? [];
             @endphp
 
             @for ($i = 1; $i <= 4; $i++)
@@ -75,7 +72,7 @@
                         <div class="col-md-9">
                             <input type="file" name="photo_{{ $i }}" id="photo_{{ $i }}"
                                    class="form-control photo-input" accept="image/*" data-slot="{{ $i }}"
-                                   {{ $i == 1 ? 'required' : '' }}>
+                                   >
                             <small class="text-muted">Formats autorisés : JPG, JPEG, PNG. Max : 2Mo.</small>
                             <img src="#" class="img-fluid rounded shadow-sm mt-2 new-image-preview"
                                  alt="Nouvelle photo {{ $i }}" style="display: none; max-width: 150px; height: auto;"
@@ -116,43 +113,18 @@
                     reader.onload = function(e) {
                         newImagePreview.src = e.target.result;
                         newImagePreview.style.display = 'block';
-                        if (currentImagePreview) {
-                            currentImagePreview.style.display = 'none';
-                        }
-                        if (noImagePlaceholder) {
-                            noImagePlaceholder.style.display = 'none';
-                        }
+                        if (currentImagePreview) currentImagePreview.style.display = 'none';
+                        if (noImagePlaceholder) noImagePlaceholder.style.display = 'none';
                     };
+
                     reader.readAsDataURL(this.files[0]);
                 } else {
                     newImagePreview.style.display = 'none';
-                    if (currentImagePreview) {
-                        currentImagePreview.style.display = 'block';
-                    } else if (noImagePlaceholder) {
-                        noImagePlaceholder.style.display = 'flex';
-                    }
+                    if (currentImagePreview) currentImagePreview.style.display = 'block';
+                    if (noImagePlaceholder) noImagePlaceholder.style.display = 'flex';
                 }
             });
         });
     });
 </script>
-<script>
-    function previewImage(input, previewId) {
-        const file = input.files[0];
-        const preview = document.getElementById(previewId);
-
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'inline-block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-            preview.style.display = 'none';
-        }
-    }
-</script>
-
 @endsection

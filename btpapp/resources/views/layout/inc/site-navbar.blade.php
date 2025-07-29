@@ -98,7 +98,7 @@
                           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Home <i class="fa fa-angle-down"></i></a>
                           <ul class="dropdown-menu" role="menu">
                             <li class="active"><a href="index.html">Home One</a></li>
-                            <li><a href="index-2.html">Home Two</a></li>
+                            <li><a href="{{ route('annonces.index') }}">Home Two</a></li>
                           </ul>
                       </li>
 

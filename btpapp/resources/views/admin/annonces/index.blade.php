@@ -13,10 +13,15 @@
     @else
         <div class="row">
             @foreach ($annonces as $annonce)
+                @php
+                    // Utiliser tel quel si c'est déjà un tableau
+                    $photos = is_array($annonce->photos) ? $annonce->photos : json_decode($annonce->photos, true);
+                @endphp
+
                 <div class="col-md-4 mb-4">
                     <div class="card shadow-sm h-100">
-                        @if ($annonce->photos && count($annonce->photos) > 0)
-                            <img src="{{ asset('storage/' . $annonce->photos[0]) }}" class="card-img-top" alt="Image principale" style="height: 200px; object-fit: cover;">
+                        @if (!empty($photos) && is_array($photos) && count($photos) > 0)
+                            <img src="{{ asset('storage/' . $photos[0]) }}" class="card-img-top" alt="Image principale" style="height: 200px; object-fit: cover;">
                         @else
                             <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="Pas d'image" style="height: 200px; object-fit: cover;">
                         @endif

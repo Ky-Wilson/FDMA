@@ -11,9 +11,10 @@ class AnnonceController extends Controller
     /**
      * Affiche la liste des annonces.
      */
-    public function index()
+     public function index()
     {
-        $annonces = Annonce::latest()->get();
+        // Limite à 2 annonces par page
+        $annonces = Annonce::latest()->paginate(2);
         return view('admin.annonces.index', compact('annonces'));
     }
 
@@ -33,33 +34,41 @@ class AnnonceController extends Controller
     /**
      * Enregistre une nouvelle annonce.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'titre' => 'required|string|max:255',
-            'introduction' => 'required|string',
-            'details' => 'required|string',
-            'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'photos' => 'array|max:4',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'titre' => 'required|string|max:255',
+        'introduction' => 'required|string',
+        'details' => 'required|string',
+        'photo_1' => 'required|image|max:2048',
+        'photo_2' => 'nullable|image|max:2048',
+        'photo_3' => 'nullable|image|max:2048',
+        'photo_4' => 'nullable|image|max:2048',
+    ]);
 
-        $photoPaths = [];
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('annonces', 'public');
-                $photoPaths[] = $path;
-            }
+    $photos = [];
+
+    // Gérer les uploads
+    foreach (['photo_1', 'photo_2', 'photo_3', 'photo_4'] as $photoField) {
+        if ($request->hasFile($photoField)) {
+            $path = $request->file($photoField)->store('annonces', 'public');
+            $photos[] = $path;
+        } else {
+            $photos[] = null;
         }
-
-        Annonce::create([
-            'titre' => $request->titre,
-            'introduction' => $request->introduction,
-            'details' => $request->details,
-            'photos' => $photoPaths,
-        ]);
-
-        return redirect()->route('admin.annonces.index')->with('success', 'Annonce créée avec succès.');
     }
+
+    // Créer l’annonce
+    Annonce::create([
+        'titre' => $request->titre,
+        'introduction' => $request->introduction,
+        'details' => $request->details,
+        'photos' => json_encode($photos),
+    ]);
+
+    return redirect()->route('admin.annonces.index')->with('success', 'Annonce créée avec succès.');
+}
+
 
     /**
      * Affiche le formulaire d’édition d’une annonce.
@@ -73,45 +82,54 @@ class AnnonceController extends Controller
     /**
      * Met à jour une annonce.
      */
-    public function update(Request $request, $id)
-    {
-        $annonce = Annonce::findOrFail($id);
+ public function update(Request $request, $id)
+{
+    $annonce = Annonce::findOrFail($id);
 
-        $request->validate([
-            'titre' => 'required|string|max:255',
-            'introduction' => 'required|string',
-            'details' => 'required|string',
-            'photos.*' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'photos' => 'array|max:4',
-        ]);
+    $validated = $request->validate([
+        'titre' => 'required|string|max:255',
+        'introduction' => 'required|string|max:500',
+        'details' => 'required|string',
+        'photo_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'photo_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'photo_3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'photo_4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $photoPaths = $annonce->photos ?? [];
+    // Récupérer les anciennes photos
+    $oldPhotos = is_array($annonce->photos) ? $annonce->photos : json_decode($annonce->photos, true) ?? [];
 
-        if ($request->hasFile('photos')) {
-            // Supprimer les anciennes photos
-            if ($photoPaths) {
-                foreach ($photoPaths as $oldPhoto) {
-                    Storage::disk('public')->delete($oldPhoto);
-                }
-            }
+    $photos = [];
 
-            // Ajouter les nouvelles photos
-            $photoPaths = [];
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('annonces', 'public');
-                $photoPaths[] = $path;
-            }
+    // Boucle sur les 4 emplacements
+    for ($i = 1; $i <= 4; $i++) {
+        $key = 'photo_' . $i;
+
+        if ($request->hasFile($key)) {
+            // Nouvelle photo : upload et ajouter au tableau
+            $path = $request->file($key)->store('annonces', 'public');
+            $photos[] = $path;
+        } elseif (isset($oldPhotos[$i - 1])) {
+            // Pas de nouvelle photo : on garde l’ancienne
+            $photos[] = $oldPhotos[$i - 1];
+        } else {
+            // Ni nouvelle ni ancienne : vide
+            $photos[] = null;
         }
-
-        $annonce->update([
-            'titre' => $request->titre,
-            'introduction' => $request->introduction,
-            'details' => $request->details,
-            'photos' => $photoPaths,
-        ]);
-
-        return redirect()->route('admin.annonces.index')->with('success', 'Annonce mise à jour avec succès.');
     }
+
+    // Mise à jour de l'annonce
+    $annonce->update([
+        'titre' => $validated['titre'],
+        'introduction' => $validated['introduction'],
+        'details' => $validated['details'],
+        'photos' => json_encode($photos),
+    ]);
+
+    return redirect()->route('admin.annonces.index')->with('success', 'Annonce mise à jour avec succès.');
+}
+
+
 
     /**
      * Supprime une annonce.

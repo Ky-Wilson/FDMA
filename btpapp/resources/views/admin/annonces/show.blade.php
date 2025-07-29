@@ -11,20 +11,25 @@
         <h4>Photos de l'annonce</h4>
         <div class="row">
             @php
-                // Assurez-vous que $annonce->photos est un tableau
-                $photos = $annonce->photos ?? [];
-                if (!is_array($photos) && json_decode($annonce->photos)) {
-                    $photos = json_decode($annonce->photos, true);
+                // Récupération des chemins des photos depuis la colonne 'photos'
+                $photos = [];
+
+                if (is_array($annonce->photos)) {
+                    $photos = $annonce->photos;
+                } elseif (is_string($annonce->photos)) {
+                    $decoded = json_decode($annonce->photos, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        $photos = $decoded;
+                    }
                 }
-                // Remplir avec des null si moins de 4 photos sont présentes
-                while (count($photos) < 4) {
-                    $photos[] = null;
-                }
+
+                // S'assurer d'avoir toujours 4 emplacements
+                $photos = array_pad($photos, 4, null);
             @endphp
 
             @foreach ($photos as $index => $photoPath)
                 <div class="col-md-3 mb-3">
-                    @if ($photoPath)
+                    @if (!empty($photoPath))
                         <img src="{{ asset('storage/' . $photoPath) }}" class="img-fluid rounded shadow-sm" alt="Photo {{ $index + 1 }}">
                     @else
                         <div class="no-image-placeholder text-muted text-center border p-3 rounded d-flex align-items-center justify-content-center" style="height: 150px; background-color: #f8f9fa;">
