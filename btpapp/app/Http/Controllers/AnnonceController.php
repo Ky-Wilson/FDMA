@@ -14,7 +14,7 @@ class AnnonceController extends Controller
      public function index()
     {
         // Limite à 2 annonces par page
-        $annonces = Annonce::latest()->paginate(2);
+        $annonces = Annonce::latest()->paginate(5);
         return view('admin.annonces.index', compact('annonces'));
     }
 
@@ -135,18 +135,21 @@ class AnnonceController extends Controller
      * Supprime une annonce.
      */
     public function destroy($id)
-    {
-        $annonce = Annonce::findOrFail($id);
+{
+    $annonce = Annonce::findOrFail($id);
 
-        // Supprimer les photos associées
-        if ($annonce->photos) {
-            foreach ($annonce->photos as $photo) {
-                Storage::disk('public')->delete($photo);
-            }
+    // Décoder le JSON en tableau
+    $photos = json_decode($annonce->photos, true) ?? [];
+
+    foreach ($photos as $photo) {
+        if ($photo) {
+            Storage::disk('public')->delete($photo);
         }
-
-        $annonce->delete();
-
-        return redirect()->route('admin.annonces.index')->with('success', 'Annonce supprimée avec succès.');
     }
+
+    $annonce->delete();
+
+    return redirect()->route('admin.annonces.index')->with('success', 'Annonce supprimée avec succès.');
+}
+
 }

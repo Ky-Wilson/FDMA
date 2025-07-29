@@ -21,36 +21,6 @@
       {{-- Colonne latérale --}}
       <div class="col-lg-4 order-1 order-lg-0">
         <div class="sidebar sidebar-left">
-          {{-- Annonces Récentes (décommenté si vous passez $recentAnnonces depuis le contrôleur) --}}
-          {{--
-          <div class="widget recent-posts">
-            <h3 class="widget-title">Annonces Récentes</h3>
-            <ul class="list-unstyled">
-              @forelse ($recentAnnonces as $recentAnnonce)
-              <li class="d-flex align-items-center">
-                <div class="posts-thumb">
-                  @php
-                      $firstPhoto = is_array($recentAnnonce->photos) && count($recentAnnonce->photos) > 0 ? $recentAnnonce->photos[0] : null;
-                  @endphp
-                  @if ($firstPhoto)
-                    <a href="{{ route('annonces.show', $recentAnnonce->id) }}">
-                        <img loading="lazy" alt="{{ $recentAnnonce->titre }}" src="{{ asset('storage/' . $firstPhoto) }}" style="width: 70px; height: 70px; object-fit: cover;">
-                    </a>
-                  @else
-                    <div style="width: 70px; height: 70px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 0.8em; text-align: center;">Pas d'image</div>
-                  @endif
-                </div>
-                <div class="post-info">
-                  <h4 class="entry-title">
-                    <a href="{{ route('annonces.show', $recentAnnonce->id) }}">{{ $recentAnnonce->titre }}</a>
-                  </h4>
-                </div>
-              </li>
-              @empty
-                  <li>Aucune annonce récente.</li>
-              @endforelse
-            </ul>
-          </div>--}}
 
           <div class="widget">
             <h3 class="widget-title">Catégories</h3>
@@ -75,19 +45,22 @@
       <div class="col-lg-8 mb-5 mb-lg-0 order-0 order-lg-1">
         @forelse ($annonces as $annonce)
           <div class="post">
-            <div class="post-media post-image" style="height: 350px; overflow: hidden; display: flex; align-items: center; justify-content: center;"> {{-- Ajout de styles pour le conteneur de l'image --}}
+            <div class="post-media post-image" style="height: 350px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
               @php
-                  $firstPhoto = is_array($annonce->photos) && count($annonce->photos) > 0 ? $annonce->photos[0] : null;
+                  // Logique de gestion des photos inspirée de admin.annonces.index
+                  $photos = is_array($annonce->photos) ? $annonce->photos : json_decode($annonce->photos, true);
+                  $firstPhoto = (!empty($photos) && is_array($photos) && count($photos) > 0) ? $photos[0] : null;
               @endphp
 
               @if ($firstPhoto)
-                <a href="{{ route('annonces.show', $annonce->id) }}" style="display: block; width: 100%; height: 100%;"> {{-- Assure que le lien prend la taille du conteneur --}}
-                    <img loading="lazy" src="{{ asset('storage/' . $firstPhoto) }}" class="img-fluid" alt="{{ $annonce->titre }}" style="width: 100%; height: 100%; object-fit: cover;"> {{-- Ajout de object-fit: cover --}}
+                <a href="{{ route('annonces.show', $annonce->id) }}" style="display: block; width: 100%; height: 100%;">
+                    <img loading="lazy" src="{{ asset('storage/' . $firstPhoto) }}" class="img-fluid" alt="{{ $annonce->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
                 </a>
               @else
-                {{-- Placeholder si aucune photo n'est disponible --}}
-                <div class="img-fluid rounded shadow-sm d-flex align-items-center justify-content-center" style="height: 100%; width: 100%; background-color: #e9ecef; font-size: 1.2em; color: #6c757d;">
-                    Aucune image disponible
+                {{-- Placeholder si aucune photo n'est disponible, avec une icône comme pour la vue admin --}}
+                <div class="img-fluid rounded shadow-sm d-flex flex-column align-items-center justify-content-center" style="height: 100%; width: 100%; background-color: #e9ecef; font-size: 1.5em; color: #6c757d;">
+                    <i class="fas fa-image fa-3x mb-3"></i>
+                    <span>Aucune image disponible</span>
                 </div>
               @endif
             </div><div class="post-body">
@@ -103,13 +76,9 @@
                 </h2>
               </div><div class="entry-content">
                 <p>{{ Str::limit($annonce->introduction, 200) }}</p>
-              </div>
-
-              <div class="post-footer">
+              </div><div class="post-footer">
                 <a href="{{ route('annonces.show', $annonce->id) }}" class="btn btn-primary">Lire la suite</a>
-              </div>
-
-            </div></div>@empty
+              </div></div></div>@empty
           <p>Aucune annonce trouvée pour le moment.</p>
         @endforelse
 

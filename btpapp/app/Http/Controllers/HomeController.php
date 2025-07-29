@@ -60,6 +60,14 @@ class HomeController extends Controller
         return view('site.projets');
     }
 
+    public function bmi(){
+        return view('site.projets.pr1');
+    }
+
+    public function duplexferke(){
+        return view('site.projets.pr2');
+    }
+
     //page services
     public function services(){
         return view('site.services');

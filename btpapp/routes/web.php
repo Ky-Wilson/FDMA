@@ -16,6 +16,22 @@ Route::get('/annonces/{id}', [HomeController::class, 'voir'])->name('annonces.sh
 Route::get('/contact', [HomeController::class, 'contact'])->name('site.contact');
 Route::get('/a-propos', [HomeController::class, 'apropos'])->name('site.apropos');
 Route::get('/projets', [HomeController::class, 'projets'])->name('site.projets');
+Route::prefix('projets')->group(function () {
+    Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+        Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+
+            Route::get('/Villa Duplex à Ferkessédougou', [HomeController::class, 'duplexferke'])->name('site.projets.pr2');
+
+                Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+
+                    Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+
+                        Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+
+                            Route::get('/BMI-FINANCES', [HomeController::class, 'bmi'])->name('site.projets.pr1');
+
+});
+
 Route::get('/services', [HomeController::class, 'services'])->name('site.services');
 
 
