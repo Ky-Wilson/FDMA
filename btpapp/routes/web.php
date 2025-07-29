@@ -11,8 +11,13 @@ Route::get('/', function () {
 });
 
 Route::get('/annonces', [HomeController::class, 'annonces'])->name('annonces.index');
-
 Route::get('/annonces/{id}', [HomeController::class, 'voir'])->name('annonces.show');
+
+Route::get('/contact', [HomeController::class, 'contact'])->name('site.contact');
+Route::get('/a-propos', [HomeController::class, 'apropos'])->name('site.apropos');
+Route::get('/projets', [HomeController::class, 'projets'])->name('site.projets');
+Route::get('/services', [HomeController::class, 'services'])->name('site.services');
+
 
 Auth::routes();
 

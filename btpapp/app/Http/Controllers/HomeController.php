@@ -26,26 +26,42 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // admin dashboard
     public function index()
     {
         return view('admin.dashboard');
     }
 
+    // annonces
     public function annonces(){
-        // Utilisez paginate() pour obtenir une collection paginable
-        // 5 est le nombre d'annonces par page, vous pouvez l'ajuster
         $annonces = Annonce::latest()->paginate(2);
-        
-        // Si vous avez besoin d'annonces récentes pour la sidebar (optionnel, comme dans les commentaires de la vue)
-        // $recentAnnonces = Annonce::latest()->take(3)->get(); // 'get()' est correct ici car ce n'est pas pour la pagination
-
         return view('site.annonces', compact('annonces'));
-        // Si vous utilisez $recentAnnonces, ce serait :
-        // return view('site.annonces', compact('annonces', 'recentAnnonces'));
     }
-public function voir($id)
-{
-    $annonce = Annonce::findOrFail($id);
-    return view('site.annonce-details', compact('annonce'));
-}
+
+    //annonce 
+    public function voir($id)
+    {
+        $annonce = Annonce::findOrFail($id);
+        return view('site.annonce-details', compact('annonce'));
+    }
+
+    //page contact
+    public function contact(){
+        return view('site.contact');
+    }
+
+    //page apropos
+    public function apropos(){
+        return view('site.apropos');
+    }
+
+    //page projets
+    public function projets(){
+        return view('site.projets');
+    }
+
+    //page services
+    public function services(){
+        return view('site.services');
+    }
 }
