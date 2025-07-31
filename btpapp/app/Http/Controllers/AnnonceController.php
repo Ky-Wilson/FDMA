@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class AnnonceController extends Controller
@@ -16,6 +18,20 @@ class AnnonceController extends Controller
         // Limite à 2 annonces par page
         $annonces = Annonce::latest()->paginate(5);
         return view('admin.annonces.index', compact('annonces'));
+    }
+     public function adminDashboard()
+    {
+        // KPI 1 : Nombre total d'annonces
+        $totalAnnonces = Annonce::count();
+
+        // KPI 2 : Nombre d'annonces ajoutées ce mois-ci
+        $annoncesCeMois = Annonce::whereYear('created_at', Carbon::now()->year)
+                                    ->whereMonth('created_at', Carbon::now()->month)
+                                    ->count();
+
+        // Vous pouvez ajouter d'autres KPI ici si nécessaire
+
+        return view('admin.dashboard', compact('totalAnnonces', 'annoncesCeMois'));
     }
 
     /**

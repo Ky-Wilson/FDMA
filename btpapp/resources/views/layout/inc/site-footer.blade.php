@@ -4,7 +4,7 @@
         <div class="row justify-content-between">
           <div class="col-lg-4 col-md-6 footer-widget footer-about">
             <h3 class="widget-title">À Propos de Nous</h3>
-            <img loading="lazy" class="footer-logo" src="{{ asset('assets/site/images/footer-logo.png') }}" alt="FDMA TRAVAUX BATIMENT">
+            <img loading="lazy" class="footer-logo" src="{{ asset('assets/site/images/logo.png') }}" alt="FDMA TRAVAUX BATIMENT">
             <p>FDMA TRAVAUX BATIMENT est une entreprise spécialisée en construction et rénovation résidentielle et commerciale. Nous mettons l'accent sur la construction moderne et les innovations technologiques.</p>
             <div class="footer-social">
               <ul>
@@ -50,21 +50,13 @@
             </div>
           </div>
 
-          <div class="col-md-12">
-            <div class="footer-menu text-center">
-              <ul class="list-unstyled mb-0">
-                <li><a href="#">À Propos</a></li>
-                <li><a href="#">Notre Équipe</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Actualités</a></li>
-                <li><a href="#">Services</a></li>
-              </ul>
-            </div>
-          </div>
+          <video controls autoplay loop muted class="img-fluid w-100 h-100" style="width: 100px; height: 100px; ">
+                                    <source src="{{ asset('assets/img/video1.mp4') }}" type="video/mp4">
+                                    Votre navigateur ne supporte pas la lecture de vidéos.
+                                </video>
         </div><div id="back-to-top" data-spy="affix" data-offset-top="10" class="back-to-top position-fixed">
           <button class="btn btn-primary" title="Retour en Haut">
             <i class="fa fa-angle-double-up"></i>
           </button>
         </div>
-
-      </div></div></footer>```
+      </div></div></footer>
