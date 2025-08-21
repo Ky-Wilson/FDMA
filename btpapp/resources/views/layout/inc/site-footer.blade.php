@@ -17,12 +17,10 @@
                 <li><a href="#" aria-label="Github"><i class="fab fa-github"></i></a></li>
               </ul>
             </div></div><div class="col-lg-4 col-md-6 footer-widget mt-5 mt-md-0">
-            <h3 class="widget-title">Heures d'Ouverture</h3>
+            <h3 class="widget-title">Nos horaires</h3>
             <div class="working-hours">
-              Nous sommes disponibles du lundi au samedi pour vos projets. N'hésitez pas à nous contacter pour toute urgence ou demande de devis.
               <br><br> Lundi - Vendredi: <span class="text-right">08:00 - 17:00 </span>
-              <br> Samedi: <span class="text-right">09:00 - 13:00</span>
-              <br> Dimanche: <span class="text-right">Fermé</span>
+              <br> Les samedis, dimanches et jours férié: <span class="text-right">Fermé</span>
             </div>
           </div><div class="col-lg-3 col-md-6 mt-5 mt-lg-0 footer-widget">
             <h3 class="widget-title">Services</h3>
@@ -40,20 +38,16 @@
             <div class="copyright-info text-center">
               <span>Copyright &copy; <script>
                   document.write(new Date().getFullYear())
-                </script>, Conçu &amp; Développé par FDMA TRAVAUX BATIMENT</span>
+                </script>, Conçu &amp; Développé par Softsys</span>
             </div>
           </div>
 
           <div class="col-md-12">
             <div class="copyright-info text-center">
-              <span>Distribué par FDMA TRAVAUX BATIMENT</span>
+              <span>Tous droits reservés FDMA TRAVAUX BATIMENT</span>
             </div>
           </div>
 
-          <video controls autoplay loop muted class="img-fluid w-100 h-100" style="width: 100px; height: 100px; ">
-                                    <source src="{{ asset('assets/img/video1.mp4') }}" type="video/mp4">
-                                    Votre navigateur ne supporte pas la lecture de vidéos.
-                                </video>
         </div><div id="back-to-top" data-spy="affix" data-offset-top="10" class="back-to-top position-fixed">
           <button class="btn btn-primary" title="Retour en Haut">
             <i class="fa fa-angle-double-up"></i>

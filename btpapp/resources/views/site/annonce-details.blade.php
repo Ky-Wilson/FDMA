@@ -17,7 +17,9 @@
                       <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($annonce->titre, 30) }}</li>
                     </ol>
                 </nav>
-              </div></div></div></div></div></div><section id="main-container" class="main-container">
+              </div></div></div></div></div></div>
+              
+              <section id="main-container" class="main-container">
   <div class="container">
     <div class="row">
 

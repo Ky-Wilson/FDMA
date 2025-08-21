@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FDMA TRAVAUX BATIMENT</title>
+    <meta name="description" content="FDMA TRAVAUX BATIMENT est une entreprise spécialisée en construction et rénovation résidentielle et commerciale. Nous mettons l'accent sur la construction moderne et les innovations technologiques.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-  <!-- Basic Page Needs
-================================================== -->
-  <meta charset="utf-8">
-  <title>Constra - Construction Html5 Template</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/site/images/favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('assets/site/images/logo.png') }}">
 
-  <!-- Mobile Specific Metas
-================================================== -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Construction Html5 Template">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-
-  <!-- Favicon
-================================================== -->
-  <link rel="icon" type="image/png" href="{{ asset('assets/site/images/favicon.png') }}">
-
-  <!-- CSS
-================================================== -->
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/bootstrap/bootstrap.min.css') }}">
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/fontawesome/css/all.min.css') }}">
-  <!-- Animation -->
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/animate-css/animate.css') }}">
-  <!-- slick Carousel -->
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/slick/slick.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/slick/slick-theme.css') }}">
-  <!-- Colorbox -->
-  <link rel="stylesheet" href="{{ asset('assets/site/plugins/colorbox/colorbox.css') }}">
-  <!-- Template styles-->
-  <link rel="stylesheet" href="{{ asset('assets/site/css/style.css') }}">
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/bootstrap/bootstrap.min.css') }}">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/fontawesome/css/all.min.css') }}">
+    
+    <!-- Animations -->
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/animate-css/animate.css') }}">
+    
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/slick/slick-theme.css') }}">
+    
+    <!-- Colorbox -->
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/colorbox/colorbox.css') }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/site/css/style.css') }}">
 </head>
+
 <body>
   <div class="body-inner">
     @include('layout.inc.site-navbar')

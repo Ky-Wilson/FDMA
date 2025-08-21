@@ -15,8 +15,8 @@
             <h2 class="slide-title" data-animation-in="slideInLeft">Expertise et Innovation</h2>
             <h3 class="slide-sub-title" data-animation-in="slideInRight">Construction et Rénovation de Qualité</h3>
             <p data-animation-in="slideInLeft" data-duration-in="1.2">
-              <a href="services.html" class="slider btn btn-primary">Nos Prestations</a>
-              <a href="contact.html" class="slider btn btn-primary border">Contactez-nous</a>
+              <a href="{{ route('site.projets') }}" class="slider btn btn-primary">Nos Prestations</a>
+              <a href="{{ route('contact.form') }}" class="slider btn btn-primary border">Contactez-nous</a>
             </p>
           </div>
         </div>
@@ -36,7 +36,7 @@
             <h3 class="slide-title" data-animation-in="fadeIn">Terrassement, Gros Œuvre, Finitions</h3>
             <h3 class="slide-sub-title" data-animation-in="slideInLeft">Pour Particuliers et Entreprises</h3>
             <p data-animation-in="slideInRight">
-              <a href="services.html" class="slider btn btn-primary border">Voir Nos Références</a>
+              <a href="{{ route('site.projets') }}" class="slider btn btn-primary border">Voir Nos Références</a>
             </p>
           </div>
         </div>
@@ -56,8 +56,8 @@
             <h3 class="slide-sub-title" data-animation-in="fadeIn">Des Équipes Formées et Expérimentées</h3>
             <p class="slider-description lead" data-animation-in="slideInRight">Nous bâtissons des espaces modernes et durables partout en Côte d’Ivoire.</p>
             <div data-animation-in="slideInLeft">
-              <a href="contact.html" class="slider btn btn-primary" aria-label="contact-with-us">Demander un Devis</a>
-              <a href="about.html" class="slider btn btn-primary border" aria-label="learn-more-about-us">En savoir plus</a>
+              <a href="{{ route('site.contact') }}" class="slider btn btn-primary" aria-label="contact-with-us">Demander un Devis</a>
+              <a href="{{ route('site.projets') }}" class="slider btn btn-primary border" aria-label="learn-more-about-us">En savoir plus</a>
             </div>
           </div>
         </div>
@@ -468,6 +468,104 @@
 
     </div></div>
   </section>
+</section>
+{{-- <section id="annonces-list" class="ts-team">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <h2 class="section-title">Nos Annonces</h2>
+        <h3 class="section-sub-title">Découvrez nos dernières offres</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="annonces-slide" class="team-slide">
+          @forelse ($annonces as $annonce)
+            @php
+              $photos = json_decode($annonce->photos, true);
+              $firstPhoto = (!empty($photos) && is_array($photos)) ? $photos[0] : null;
+            @endphp
+            <div class="item">
+              <div class="ts-team-wrapper">
+                <div class="team-img-wrapper" style="height: 250px; overflow: hidden;">
+                  @if ($firstPhoto)
+                    <img loading="lazy" class="w-100" src="{{ asset('assets/img/annonces/' . $firstPhoto) }}" alt="{{ $annonce->titre }}" style="object-fit: cover; height: 100%;">
+                  @else
+                    <div class="no-image-placeholder text-muted text-center d-flex align-items-center justify-content-center w-100" style="height: 100%; background-color: #f8f9fa;">
+                      <span>Pas d'image</span>
+                    </div>
+                  @endif
+                </div>
+                <div class="ts-team-content">
+                  <h3 class="ts-name"><a href="{{ route('annonces.show', $annonce->id) }}">{{ $annonce->titre }}</a></h3>
+                  <p class="ts-designation">Publié le {{ $annonce->created_at->format('d M Y') }}</p>
+                  <p class="ts-description">{{ Str::limit($annonce->introduction, 100) }}</p>
+                  <div class="team-social-icons">
+                    <a href="{{ route('annonces.show', $annonce->id) }}" class="btn btn-primary">Voir l'annonce</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @empty
+            <p>Aucune annonce à afficher pour le moment.</p>
+          @endforelse
+        </div>
+      </div>
+    </div>
+  </div>
+</section> --}}
+@php
+    // Si $annonces n'existe pas, on le définit comme collection vide
+    $annonces = $annonces ?? collect();
+@endphp
+
+<section id="annonces-list" class="ts-team">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <h2 class="section-title">Nos Annonces</h2>
+        <h3 class="section-sub-title">Découvrez nos dernières offres</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="annonces-slide" class="team-slide">
+          @forelse ($annonces as $annonce)
+            @php
+              $photos = json_decode($annonce->photos, true);
+              $firstPhoto = (!empty($photos) && is_array($photos)) ? $photos[0] : null;
+            @endphp
+            <div class="item">
+              <div class="ts-team-wrapper">
+                <div class="team-img-wrapper" style="height: 250px; overflow: hidden;">
+                  @if ($firstPhoto)
+                    <img loading="lazy" class="w-100" src="{{ asset('storage/' . $firstPhoto) }}" alt="{{ $annonce->titre }}" style="object-fit: cover; height: 100%;">
+                  @else
+                    <div class="no-image-placeholder text-muted text-center d-flex align-items-center justify-content-center w-100" style="height: 100%; background-color: #f8f9fa;">
+                      <span>Pas d'image</span>
+                    </div>
+                  @endif
+                </div>
+                <div class="ts-team-content">
+                  <h3 class="ts-name">
+                    <a href="{{ route('annonces.show', $annonce->id) }}">{{ $annonce->titre }}</a>
+                  </h3>
+                  <p class="ts-designation">Publié le {{ $annonce->created_at->format('d M Y') }}</p>
+                  <p class="ts-description">{{ Str::limit($annonce->introduction, 100) }}</p>
+                  <div class="team-social-icons">
+                    <a href="{{ route('annonces.show', $annonce->id) }}" class="btn btn-primary">Voir l'annonce</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @empty
+            <p>Aucune annonce à afficher pour le moment.</p>
+          @endforelse
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="content">
   <div class="container">
@@ -550,7 +648,7 @@
                 </figure>
               </div></div></div></div>
     </div>
-  </section>```
+  </section>
 
 
 @endsection

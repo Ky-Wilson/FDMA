@@ -4,7 +4,7 @@
             <div class="col-lg-8 col-md-8">
                 <ul class="top-info text-center text-md-left">
                     <li><i class="fas fa-map-marker-alt"></i>
-                        <p class="info-text">9051 Constra Incorporate, USA</p>
+                        <p class="info-text">FDMA CI</p>
                     </li>
                 </ul>
             </div>
@@ -33,7 +33,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('site.apropos') }}" class="nav-link">Entreprise</a>
+            <a href="{{ route('site.apropos') }}" class="nav-link">A Propos</a>
         </li>
         <li class="nav-item">
             <a href="{{ route('site.projets') }}" class="nav-link">Projets</a>

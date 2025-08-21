@@ -71,7 +71,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <h3 class="column-title">We love to hear</h3>
+        <h3 class="column-title">Nous sommes disponibles</h3>
         <!-- contact form works with formspree.io  -->
         <!-- contact form activation doc: https://docs.themefisher.com/constra/contact-form/ -->
         @if(session('success'))

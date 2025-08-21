@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Annonce;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Annonce;
+use App\Models\Projet;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str; // N'oubliez pas d'importer Str si vous l'utilisez dans la vue (pour Str::limit)
 
 
@@ -32,6 +33,10 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
+    public function bienvenue(){
+        $annonces = Annonce::latest()->paginate(2);
+        return view('site.bienvenue', compact('annonces'));
+    }
     // annonces
     public function annonces(){
         $annonces = Annonce::latest()->paginate(2);
@@ -56,9 +61,25 @@ class HomeController extends Controller
     }
 
     //page projets
-    public function projets(){
-        return view('site.projets');
-    }
+
+public function projets()
+{
+    $projets = Projet::where('actif', true)
+                     ->orderBy('date_fin', 'desc')
+                     ->get();
+
+    $categories = Projet::select('categorie')
+                        ->where('actif', true)
+                        ->distinct()
+                        ->pluck('categorie');
+
+    return view('site.projets', compact('projets', 'categories'));
+}
+public function show($id)
+{
+    $projet = Projet::findOrFail($id);
+    return view('site.projet-detail', compact('projet'));
+}
 
     public function bmi(){
         return view('site.projets.pr1');
@@ -66,6 +87,10 @@ class HomeController extends Controller
 
     public function duplexferke(){
         return view('site.projets.pr2');
+    }
+
+    public function chuyop(){
+        return view('site.projets.chuyop');
     }
 
     //page services
